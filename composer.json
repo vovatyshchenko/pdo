@@ -1,0 +1,10 @@
+{
+    "name": "root/pdo",
+    "type": "no",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+          "Academy\\": "src/"
+        }
+      }
+}
