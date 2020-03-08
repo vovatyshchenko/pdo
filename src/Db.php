@@ -14,11 +14,14 @@
          */
         public function insert($data)
         {
-            $data = time();
-            $sql = "INSERT INTO `{$this->tableName}` VALUES(:val)";
+            $createAt = Date('Y-m-d H:i:s');
+            $arr=[
+                'val' => $data,
+                'createAt' => $createAt
+            ];
+            $sql = "INSERT INTO `{$this->tableName}`(name,create_at) VALUES(:val,:createAt)";
             $stmt = $this->pdo->prepare($sql);
-    
-            return $stmt->execute(['val' => $value]);
+            return $stmt->execute($arr);
         }
     
         public function update($data)
@@ -55,13 +58,24 @@
             return (int)$result[0];
         }
     
-        public function getAll($order = "id asc")
+        /*public function getAll($order = "id DESC")
         {
             $sql = "SELECT * FROM `{$this->tableName}` ORDER BY $order";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll();
             return $result;
+        }*/
+
+        public function getAll($order = "id DESC")
+        {
+        echo '<ul>';
+        $sql = $this->pdo->query("SELECT * FROM `{$this->tableName}` ORDER BY $order");
+        while ($row = $sql->fetch(PDO::FETCH_OBJ))
+        {
+            echo '<li>'.$row->name.'<a href="/delete.php?id='.$row->id.'"><button>Удалить</button></a></li>';
+        }
+        echo '</ul>';
         }
     
         /**

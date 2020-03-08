@@ -1,5 +1,7 @@
 <?php
 
+namespace Academy;
+
 class Request
 {
 	private $errors = [];
