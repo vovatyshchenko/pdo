@@ -26,12 +26,14 @@ class Request
 		return true;
     }
     
-    public function getData($nameInput)
+    public function getData()
     {
-        $inputData = $_POST[$nameInput] ?? '';
-		$data = $this->clearData($inputData);
-		return $data;
-
+		if (isset($_POST)) {
+			foreach ($_POST as $key=>$value){
+				$arr[$key]=$this->clearData($value);
+			}
+		}
+		return $arr;
     }
 
 	public function getErrors()
@@ -51,12 +53,13 @@ class Request
     if( $requestClass->isPost() )
     {
         $requestClass->required('name');
+        $requestClass->required('author');
 	    $errors = $requestClass->getErrors();
 		echo json_encode($errors);
 		
-		if ( $requestClass->required('name'))
+		if ( $requestClass->required('name') && $requestClass->required('author'))
 		{
-			$db->insert($requestClass->getData('name'));
+			$db->insert($requestClass->getData());
 		}
 		
     }

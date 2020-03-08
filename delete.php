@@ -1,31 +1,24 @@
 <?php
+    namespace Academy;
+
     use Academy\Db;
     require_once __DIR__ . '/vendor/autoload.php';
 
-    class Delete
+    class Delete extends Db
     {
+     
         public function isGet()
         {
             return $_SERVER['REQUEST_METHOD'] == 'GET';
         }
 
-        public function clearData($text)
-	    {
-            $text = trim(strip_tags(htmlspecialchars($text)));
-            return $text;
-        }
-        
         public function getId()
         {
-            if ($_SERVER['REQUEST_METHOD'] == 'GET')
+            if (empty($_GET['id']))
             {
-                if (!empty($GET['id']))
-                {
-                    return $id = $this->clearData($GET['id']);
-                }
+                return "";
             }
-            return "";
-            
+            return $id = trim(strip_tags(htmlspecialchars($_GET['id'])));
         }
 
         public function Del()
@@ -34,7 +27,7 @@
             $sql = "DELETE FROM `{$this->tableName}` WHERE `id` = :id";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($arr);
-            return header("Location: /");
+            header("Location: /pdo/index.php");
         }
     }
 

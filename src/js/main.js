@@ -4,6 +4,7 @@ function sendData()
     let dataForm = $(form).serialize();
     $('*', form).removeClass('error');
     $('.invalid-feedback').empty();
+    $('.form-control', form).val('');
     $.ajax({
         url: 'request.php', 
         type: 'POST',
